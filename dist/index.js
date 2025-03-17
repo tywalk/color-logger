@@ -84,7 +84,7 @@ class Logger {
         }
         __classPrivateFieldSet(this, _Logger_level, levels[level], "f");
         __classPrivateFieldSet(this, _Logger_originalLevel, levels[level], "f");
-        console.log("log level:", level, this.area);
+        this.debug("log level:", level, this.area);
     }
     setDebug(debug) {
         const isDebug = __classPrivateFieldGet(this, _Logger_level, "f") === levels["debug"];

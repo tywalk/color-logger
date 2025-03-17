@@ -1,6 +1,6 @@
 {
   "name": "@tywalk/color-logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A utility that provides colored console logs for greater visibility and log type distinction.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

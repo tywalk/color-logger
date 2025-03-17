@@ -72,7 +72,7 @@ export class Logger {
     }
     this.#level = levels[level];
     this.#originalLevel = levels[level];
-    console.log("log level:", level, this.area);
+    this.debug("log level:", level, this.area);
   }
   #log(callback: LoggerCallback, message: string, ...args: string[]) {
     callback(message, ...args);
