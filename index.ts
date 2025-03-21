@@ -58,10 +58,10 @@ const levels = {
 export class Logger {
   #level = levels[DEFAULT_LEVEL];
   #originalLevel = levels[DEFAULT_LEVEL];
-  area = "main";
-  constructor(level: keyof typeof levels, area: string) {
+  area = "";
+  constructor(level: keyof typeof levels, area?: string) {
     level = level || DEFAULT_LEVEL;
-    this.area = area || "main";
+    this.area = area || "";
     if (typeof levels[level] === "undefined") {
       console.error(
         "Logger level (%s) is not a valid level. Valid levels include: %s.",
@@ -79,9 +79,9 @@ export class Logger {
   }
   levelLog =
     (level: number, callback: LoggerCallback) =>
-    (message: string, ...args: string[]) =>
+    (message: string, ...args: any[]) =>
       level <= this.#level &&
-      this.#log(callback, `(${this.area}) ${message}`, ...args);
+      this.#log(callback, `${this.area ? `(${this.area}) ` : ''}${message}`, ...args);
 
   log = this.levelLog(levels["log"], (message: string, ...args: string[]) =>
     console.log(message, ...args)
@@ -114,7 +114,21 @@ export class Logger {
       ...color.magenta.bright.colorizeArgs(`[DEBUG] ${message}`, ...args)
     )
   );
-
+  setLevel(level: keyof typeof levels) {
+    const isDebug = this.#level === levels["debug"];
+    if (!isDebug) {
+      if (typeof levels[level] === "undefined") {
+        console.error(
+          "Logger level (%s) is not a valid level. Valid levels include: %s.",
+          level,
+          Object.keys(levels).join(", ")
+        );
+        return;
+      }
+      this.debug("Setting log level:", level, this.area);
+      this.#level = levels[level];
+    }
+  }
   setDebug(debug: boolean) {
     const isDebug = this.#level === levels["debug"];
     if (isDebug !== debug) {
@@ -137,5 +151,5 @@ export class Logger {
   }
 }
 
-const mainLogger = new Logger(DEFAULT_LEVEL, "main");
+const mainLogger = new Logger(DEFAULT_LEVEL);
 export default mainLogger;

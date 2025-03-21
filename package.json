@@ -1,6 +1,6 @@
 {
   "name": "@tywalk/color-logger",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A utility that provides colored console logs for greater visibility and log type distinction.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,13 +8,18 @@
     "url": "git+https://github.com/tywalk/color-logger.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "test": "jest",
+    "build": "tsc",
+    "upgrade": "npm version patch --no-git-tag-version",
+    "ready": "npm run upgrade && npm run build"
   },
   "author": "tywalk",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.10",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
     "typescript": "^5.8.2"
   },
   "keywords": [

@@ -43,15 +43,16 @@ declare const levels: {
 export declare class Logger {
     #private;
     area: string;
-    constructor(level: keyof typeof levels, area: string);
-    levelLog: (level: number, callback: LoggerCallback) => (message: string, ...args: string[]) => false | void;
-    log: (message: string, ...args: string[]) => false | void;
-    success: (message: string, ...args: string[]) => false | void;
-    error: (message: string, ...args: string[]) => false | void;
-    warn: (message: string, ...args: string[]) => false | void;
-    info: (message: string, ...args: string[]) => false | void;
-    trace: (message: string, ...args: string[]) => false | void;
-    debug: (message: string, ...args: string[]) => false | void;
+    constructor(level: keyof typeof levels, area?: string);
+    levelLog: (level: number, callback: LoggerCallback) => (message: string, ...args: any[]) => false | void;
+    log: (message: string, ...args: any[]) => false | void;
+    success: (message: string, ...args: any[]) => false | void;
+    error: (message: string, ...args: any[]) => false | void;
+    warn: (message: string, ...args: any[]) => false | void;
+    info: (message: string, ...args: any[]) => false | void;
+    trace: (message: string, ...args: any[]) => false | void;
+    debug: (message: string, ...args: any[]) => false | void;
+    setLevel(level: keyof typeof levels): void;
     setDebug(debug: boolean): void;
     /**
      * Sets area where logger will be used.

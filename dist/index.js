@@ -66,9 +66,9 @@ class Logger {
         _Logger_instances.add(this);
         _Logger_level.set(this, levels[DEFAULT_LEVEL]);
         _Logger_originalLevel.set(this, levels[DEFAULT_LEVEL]);
-        this.area = "main";
+        this.area = "";
         this.levelLog = (level, callback) => (message, ...args) => level <= __classPrivateFieldGet(this, _Logger_level, "f") &&
-            __classPrivateFieldGet(this, _Logger_instances, "m", _Logger_log).call(this, callback, `(${this.area}) ${message}`, ...args);
+            __classPrivateFieldGet(this, _Logger_instances, "m", _Logger_log).call(this, callback, `${this.area ? `(${this.area}) ` : ''}${message}`, ...args);
         this.log = this.levelLog(levels["log"], (message, ...args) => console.log(message, ...args));
         this.success = this.levelLog(levels["log"], (message, ...args) => console.log(...exports.color.green.bright.colorizeArgs(message, ...args)));
         this.error = this.levelLog(levels["error"], (message, ...args) => console.error(...exports.color.red.bright.colorizeArgs(`[ERROR] ${message}`, ...args)));
@@ -77,7 +77,7 @@ class Logger {
         this.trace = this.levelLog(levels["trace"], (message, ...args) => console.trace(...exports.color.cyan.bright.colorizeArgs(`[TRACE] ${message}`, ...args)));
         this.debug = this.levelLog(levels["debug"], (message, ...args) => console.debug(...exports.color.magenta.bright.colorizeArgs(`[DEBUG] ${message}`, ...args)));
         level = level || DEFAULT_LEVEL;
-        this.area = area || "main";
+        this.area = area || "";
         if (typeof levels[level] === "undefined") {
             console.error("Logger level (%s) is not a valid level. Valid levels include: %s.", level, Object.keys(levels).join(", "));
             level = DEFAULT_LEVEL;
@@ -85,6 +85,17 @@ class Logger {
         __classPrivateFieldSet(this, _Logger_level, levels[level], "f");
         __classPrivateFieldSet(this, _Logger_originalLevel, levels[level], "f");
         this.debug("log level:", level, this.area);
+    }
+    setLevel(level) {
+        const isDebug = __classPrivateFieldGet(this, _Logger_level, "f") === levels["debug"];
+        if (!isDebug) {
+            if (typeof levels[level] === "undefined") {
+                console.error("Logger level (%s) is not a valid level. Valid levels include: %s.", level, Object.keys(levels).join(", "));
+                return;
+            }
+            this.debug("Setting log level:", level, this.area);
+            __classPrivateFieldSet(this, _Logger_level, levels[level], "f");
+        }
     }
     setDebug(debug) {
         const isDebug = __classPrivateFieldGet(this, _Logger_level, "f") === levels["debug"];
@@ -112,5 +123,5 @@ exports.Logger = Logger;
 _Logger_level = new WeakMap(), _Logger_originalLevel = new WeakMap(), _Logger_instances = new WeakSet(), _Logger_log = function _Logger_log(callback, message, ...args) {
     callback(message, ...args);
 };
-const mainLogger = new Logger(DEFAULT_LEVEL, "main");
+const mainLogger = new Logger(DEFAULT_LEVEL);
 exports.default = mainLogger;
