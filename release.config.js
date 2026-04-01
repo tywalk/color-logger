@@ -1,5 +1,6 @@
 export default {
   branches: ['master'],
+  tagFormat: 'v${version}',
   plugins: [
     ['@semantic-release/commit-analyzer', {
       releaseRules: [
